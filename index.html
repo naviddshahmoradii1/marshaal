@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Marshaal - Video Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      background-color: #111;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav {
+      display: flex;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 1.2rem;
+      font-size: 1rem;
+    }
+
+
+    .hero {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .hero img.active {
+      opacity: 1;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+      color: #fff;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .movies-section,
+    .videos-section {
+      padding: 2rem;
+    }
+
+    .movies-section h2,
+    .videos-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .movie-card {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-card img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .movie-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+      z-index: 1;
+      color: #fff;
+      text-align: left;
+    }
+
+    .movie-info h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .video-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .video-card:hover {
+      transform: scale(1.05);
+    }
+
+    .video-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .video-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+      z-index: 1;
+      color: #fff;
+      text-align: left;
+    }
+
+    .video-info h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    footer {
+      background-color: #111;
+      text-align: center;
+      padding: 1rem;
+      color: #666;
+    }
+
+        /* اضافه کن به استایل */
+    .team-section {
+      padding: 4rem 2rem;
+      background: #fff;
+      color: #000;
+      text-align: center;
+    }
+
+
+    .team-section h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .team-slider {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .team-container {
+      display: flex;
+      transition: transform 0.4s ease;
+      gap: 2rem;
+      padding: 1rem;
+      max-width: 100%;
+      margin: 0 auto;
+      scroll-behavior: smooth;
+      overflow: hidden;
+    }
+
+    .team-card {
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0.7;
+      transform: scale(0.9);
+      background: #111;
+      color: #fff;
+      min-width: 500px; /* بزرگ‌تر و کشیده‌تر */
+      max-width: 500px;
+      height: 280px;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .team-card.active {
+      transform: scale(1.1);
+      opacity: 1;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .team-card img {
+        width: 40%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .team-info {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(to left, #000 40%, transparent);
+    }
+
+    .team-info h3 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .team-info p {
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+    }
+
+    .more-btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background: #fff;
+        color: #000;
+        font-weight: bold;
+        border-radius: 1.5rem;
+        text-decoration: none;
+    }
+
+    .team-prev,
+    .team-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      border-radius: 50%;
+      width: 2.8rem;
+      height: 2.8rem;
+      cursor: pointer;
+      z-index: 2;
+      opacity: 0.8;
+    } 
+    .team-prev { left: 0.5rem; }
+    .team-next { right: 0.5rem; }
+    .account {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .account-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-left: 1.5rem;
+      border: 2px solid #fff;
+    }
+
+    .account-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      min-width: 160px;
+      text-align: left;
+      z-index: 999;
+    }
+
+    .account-menu a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .account-menu p {
+      margin: 0 0 0.5rem 0;
+      font-weight: bold;
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    .account:hover .account-menu {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Marshaal</div>
+    <div class="header-right">
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">Series</a>
+        <a href="#">Movies</a>
+        <a href="#">Contact</a>
+      </nav>
+      <div class="account">
+        <img src="images/user-icon.png" alt="User" class="account-icon" />
+        <div class="account-menu">
+          <p><strong>Navid Marshaal</strong></p>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  
+
+  <section class="hero">
+    <img src="https://image.tmdb.org/t/p/original/hziiv14OpD73u9gAak4XDDfBKa2.jpg" class="active" alt="Harry Potter">
+    <img src="https://image.tmdb.org/t/p/original/6EdKBYkB1ssgGjc249ud1L55o8d.jpg" alt="Inception">
+    <img src="https://image.tmdb.org/t/p/original/tDexQyu6FWltcd0VhEDK7uib42f.jpg" alt="The Dark Knight">
+    <div class="hero-text">
+      <h1>Welcome to Marshaal Official Platform</h1>
+      <p>Watch our exclusive movies and series right here</p>
+    </div>
+  </section>
+
+  <section class="movies-section">
+    <h2>Latest Releases</h2>
+    <div class="movies-grid">
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/original/3G1Q5xF40HkUBJxrkdzq3I8xX9E.jpg" alt="Dune: Part Two">
+        <div class="movie-info">
+          <h3>Dune: Part Two</h3>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/original/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg" alt="Godzilla x Kong">
+        <div class="movie-info">
+          <h3>Godzilla x Kong</h3>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/original/2xE3NI6zElWhwN9WJ92fqbZKmzZ.jpg" alt="The Fall Guy">
+        <div class="movie-info">
+          <h3>The Fall Guy</h3>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/original/fC2HDm5t0kHl7koOslMjJFOw1Co.jpg" alt="Civil War">
+        <div class="movie-info">
+          <h3>Civil War</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="videos-section">
+    <h2>Videos</h2>
+    <div class="videos-grid">
+      <div class="video-card">
+        <img src="https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Rickroll'd Again">
+        <div class="video-info"><h3>Rickroll'd Again</h3></div>
+      </div>
+      <div class="video-card">
+        <img src="https://i.ytimg.com/vi/3fumBcKC6RE/maxresdefault.jpg" alt="Funny Cat Compilation">
+        <div class="video-info"><h3>Funny Cat Compilation</h3></div>
+      </div>
+      <div class="video-card">
+        <img src="https://i.ytimg.com/vi/kJQP7kiw5Fk/maxresdefault.jpg" alt="Despacito Music Video">
+        <div class="video-info"><h3>Despacito Music Video</h3></div>
+      </div>
+    </div>
+  </section>
+  <!-- اضافه کن به انتهای <body> قبل از </body> -->
+  <section class="team-section">
+    <h2>Team Members</h2>
+    <div class="team-slider">
+      <button class="team-prev">&#10094;</button>
+      <div class="team-container" id="teamContainer">
+        <div class="team-card">
+          <img src="Team/Marshaal/navid.JPG" alt="Navid Marshaal">
+          <div class="team-info">
+            <h3>The Marshaal</h3>
+            <p><strong>"Owner"</strong></p>
+            <p>navid marshaal is ​co-funder of marshaal.</p>
+            <p>""it's easy to be good<br>but make your life harder""</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <img src="Team/Eminem/Amin.jpg" alt="Team Member">
+          <div class="team-info">
+            <h3>The Eminem</h3>
+            <p><strong>"Editor"</strong></p>
+            <p>Amin Nasr Esfahani AKA The Eminem in Marshaal team.</p>
+            <p>"VISCA BARSA VISCA CATALONIA"</p>
+          </div>
+        </div>
+        <!-- Add more cards as needed -->
+      </div>
+      <button class="team-next">&#10095;</button>
+    </div>
+  </section>
+  <footer>
+    &copy; 2025 Marshaal - All rights reserved.
+  </footer>
+
+  <script>
+    const images = document.querySelectorAll('.hero img');
+    let current = 0;
+    setInterval(() => {
+      images[current].classList.remove('active');
+      current = (current + 1) % images.length;
+      images[current].classList.add('active');
+    }, 4000);
+
+    // اسلایدر اعضای تیم
+    const teamCards = document.querySelectorAll('.team-card');
+    const teamContainer = document.querySelector('.team-container');
+    const prevBtn = document.querySelector('.team-prev');
+    const nextBtn = document.querySelector('.team-next');
+    let currentIndex = 0;
+
+    function updateSlider() {
+      const cardWidth = teamCards[0].offsetWidth + 32; // card width + gap
+      const offset = -(currentIndex * cardWidth);
+      teamContainer.style.transform = `translateX(${offset}px)`;
+
+      teamCards.forEach((card, index) => {
+        card.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < teamCards.length - 1) {
+        currentIndex++;
+        updateSlider();
+      }
+    });
+
+    window.addEventListener('load', updateSlider);
+  </script>
+
+</body>
+</html>
